@@ -1,56 +1,73 @@
 package financeiro.web;
 
+//import java.util.ArrayList;
+//import java.util.List;
+
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
+//import javax.faces.model.SelectItem;
+
+import financeiro.usuario.Usuario;
+import financeiro.usuario.UsuarioRN;
 
 @ManagedBean(name="usuarioBean")
 @RequestScoped
 public class UsuarioBean {
-	
-	private String nome;
-	private String email;
-	private String senha;
-	private String confirmaSenha;
-	
-	public String novo() {
-	return "usuario?faces-redirect=true";
-	}
-	
-	public String salvar() {
-		FacesContext context = FacesContext.getCurrentInstance();
-		if(!this.senha.equalsIgnoreCase(this.confirmaSenha)) {
-			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Senha confirmada incorretamente", ""));
-			return "usuario";
+	private Usuario usuario = new Usuario();
+	private String confirmarSenha;
+/*	private List<SelectItem> idiomas;
+
+	public List<SelectItem> getIdiomas() {
+		if (this.idiomas == null) {
+			this.idiomas = new ArrayList<SelectItem>();
+			this.idiomas.add(new SelectItem("pt_BR", "Português"));
+			this.idiomas.add(new SelectItem("en_US", "English"));
+			this.idiomas.add(new SelectItem("es_ES", "Espanol"));
+
 		}
-		//salva usuario99	
-			return "mostraUsuario";			
-	}
-	public String getNome() {
-		return nome;
-	}
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-	public String getEmail() {
-		return email;
-	}
-	public void setEmail(String email) {
-		this.email = email;
-	}
-	public String getSenha() {
-		return senha;
-	}
-	public void setSenha(String senha) {
-		this.senha = senha;
-	}
-	public String getConfirmaSenha() {
-		return confirmaSenha;
-	}
-	public void setConfirmaSenha(String confirmaSenha) {
-		this.confirmaSenha = confirmaSenha;
-	}
+		return idiomas;
+
+	}*/
 	
-	
+	public String novo() { 
+		this.usuario = new Usuario();
+		this.usuario.setAtivo(true);
+		return "usuario"; 
+	}
+	public String salvar() { 
+		FacesContext context = FacesContext.getCurrentInstance();
+
+		String senha = this.usuario.getSenha();
+		if (!senha.equals(this.confirmarSenha)) { 
+			FacesMessage facesMessage = new FacesMessage("A senha não foi confirmada corretamente");
+			context.addMessage(null, facesMessage);
+			return null; 
+		}
+
+		UsuarioRN usuarioRN = new UsuarioRN();
+		usuarioRN.salvar(this.usuario); 
+
+		return "usuarioSucesso"; 
+	}
+
+
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}
+
+	public String getConfirmarSenha() {
+		return confirmarSenha;
+	}
+
+	public void setConfirmarSenha(String confirmarSenha) {
+		this.confirmarSenha = confirmarSenha;
+	}
+
+
 }
