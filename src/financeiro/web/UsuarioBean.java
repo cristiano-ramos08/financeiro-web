@@ -17,19 +17,7 @@ import financeiro.usuario.UsuarioRN;
 public class UsuarioBean {
 	private Usuario usuario = new Usuario();
 	private String confirmarSenha;
-/*	private List<SelectItem> idiomas;
 
-	public List<SelectItem> getIdiomas() {
-		if (this.idiomas == null) {
-			this.idiomas = new ArrayList<SelectItem>();
-			this.idiomas.add(new SelectItem("pt_BR", "Português"));
-			this.idiomas.add(new SelectItem("en_US", "English"));
-			this.idiomas.add(new SelectItem("es_ES", "Espanol"));
-
-		}
-		return idiomas;
-
-	}*/
 	
 	public String novo() { 
 		this.usuario = new Usuario();
